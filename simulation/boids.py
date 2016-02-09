@@ -24,7 +24,7 @@ boid_y_velocities = velocities[1]
 
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
-starlings = Boids()
+starlings = Boids(positions,velocities)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))

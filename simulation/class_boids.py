@@ -1,13 +1,13 @@
 class Boids(object):
-    def __init__(self):
-        pass
+    def __init__(self,positions,velocities):
+        self.pos = positions
+        self.vel = velocities
+        self.Nboids = len(positions[1])
 
     def fly_towards_middle(self,xs,ys,xvs,yvs,coeff):
         for i in range(len(xs)):
             for j in range(len(xs)):
                 xvs[i]=xvs[i]+(xs[j]-xs[i])*coeff/len(xs)
-        for i in range(len(xs)):
-            for j in range(len(xs)):
                 yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
  
     def avoid_nearby_boids(self,xs,ys,xvs,yvs,cutoff):
