@@ -4,37 +4,35 @@ class Boids(object):
         self.vel = velocities
         self.Nboids = len(positions[1])
 
-    def fly_towards_middle(self,xs,ys,xvs,yvs,coeff):
-        for i in range(len(xs)):
-            for j in range(len(xs)):
-                xvs[i]=xvs[i]+(xs[j]-xs[i])*coeff/len(xs)
-                yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
+    def fly_towards_middle(self,coeff):
+        for i in range(self.Nboids):
+            for j in range(self.Nboids):
+                self.vel[0][i]=self.vel[0][i]+(self.pos[0][j]-self.pos[0][i])*coeff/self.Nboids
+                self.vel[1][i]=self.vel[1][i]+(self.pos[1][j]-self.pos[1][i])*coeff/self.Nboids
  
-    def avoid_nearby_boids(self,xs,ys,xvs,yvs,cutoff):
-        for i in range(len(xs)):
-            for j in range(len(xs)):
-                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                    xvs[i]=xvs[i]+(xs[i]-xs[j])
-                    yvs[i]=yvs[i]+(ys[i]-ys[j])
+    def avoid_nearby_boids(self,cutoff):
+        for i in range(self.Nboids):
+            for j in range(self.Nboids):
+                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
+                    self.vel[0][i]=self.vel[0][i]+(self.pos[0][i]-self.pos[0][j])
+                    self.vel[1][i]=self.vel[1][i]+(self.pos[1][i]-self.pos[1][j])
     
-    def match_speeds(self,xs,ys,xvs,yvs,coeff,cutoff):
-        for i in range(len(xs)):
-            for j in range(len(xs)):
-                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                    xvs[i]=xvs[i]+(xvs[j]-xvs[i])*coeff/len(xs)
-                    yvs[i]=yvs[i]+(yvs[j]-yvs[i])*coeff/len(xs)
+    def match_speeds(self,coeff,cutoff):
+        for i in range(self.Nboids):
+            for j in range(self.Nboids):
+                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
+                    self.vel[0][i]=self.vel[0][i]+(self.vel[0][j]-self.vel[0][i])*coeff/self.Nboids
+                    self.vel[1][i]=self.vel[1][i]+(self.vel[1][j]-self.vel[1][i])*coeff/self.Nboids
  
-    def increment_positions(self,xs,ys,xvs,yvs):
-        for i in range(len(xs)):
-            xs[i]=xs[i]+xvs[i]
-            ys[i]=ys[i]+yvs[i]
+    def increment_positions(self):
+        for i in range(self.Nboids):
+            self.pos[0][i]=self.pos[0][i]+self.vel[0][i]
+            self.pos[1][i]=self.pos[1][i]+self.vel[1][i]
 
-    def update_boids(self,boids,config):
-        xs,ys,xvs,yvs=boids
-    
-        self.fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
-        self.avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
-        self.match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
-        self.increment_positions(xs,ys,xvs,yvs)
+    def update_boids(self,config):    
+        self.fly_towards_middle(config['fly_towards_middle_coeff'])
+        self.avoid_nearby_boids(config['avoid_nearby_birds_cutoff'])
+        self.match_speeds(config['match_speed']['coeff'],config['match_speed']['cutoff'])
+        self.increment_positions()
 
 

@@ -13,26 +13,18 @@ from class_build import Builder
 config = yaml.load(open('config.yml'))
 
 initialise_simulation = Builder('config.yml')
-
 positions = initialise_simulation.generate('starting_positions')
-boids_x = positions[0]
-boids_y = positions[1] 
-
 velocities = initialise_simulation.generate('starting_velocities')
-boid_x_velocities = velocities[0]
-boid_y_velocities = velocities[1]
-
-boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 starlings = Boids(positions,velocities)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
-scatter=axes.scatter(boids[0],boids[1])
+scatter=axes.scatter(starlings.pos[0],starlings.pos[1])
 
 def animate(frame):
-   starlings.update_boids(boids,config)
-   scatter.set_offsets(zip(boids[0],boids[1]))
+   starlings.update_boids(config)
+   scatter.set_offsets(zip(starlings.pos[0],starlings.pos[1]))
 
 anim = animation.FuncAnimation(figure, animate,
                                frames=50, interval=50)
