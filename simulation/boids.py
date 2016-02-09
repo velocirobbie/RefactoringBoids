@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 import yaml
+from class_boids import Boids
 
 config=yaml.load(open('config.yml'))
 Nboids=config['Number_of_boids']
@@ -22,40 +23,14 @@ boid_x_velocities=random_list(config['starting_velocities']['x_range'],Nboids)
 boid_y_velocities=random_list(config['starting_velocities']['y_range'],Nboids)
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
-def fly_towards_middle(xs,ys,xvs,yvs,coeff):
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            xvs[i]=xvs[i]+(xs[j]-xs[i])*coeff/len(xs)
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
- 
-def avoid_nearby_boids(xs,ys,xvs,yvs,cutoff):
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                xvs[i]=xvs[i]+(xs[i]-xs[j])
-                yvs[i]=yvs[i]+(ys[i]-ys[j])
-    
-def match_speeds(xs,ys,xvs,yvs,coeff,cutoff):
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*coeff/len(xs)
-                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*coeff/len(xs)
- 
-def increment_positions(xs,ys,xvs,yvs):
-    for i in range(len(xs)):
-        xs[i]=xs[i]+xvs[i]
-        ys[i]=ys[i]+yvs[i]
-
+starlings = Boids()
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
     
-    fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
-    avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
-    match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
-    increment_positions(xs,ys,xvs,yvs)
+    starlings.fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
+    starlings.avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
+    starlings.match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
+    starlings.increment_positions(xs,ys,xvs,yvs)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
