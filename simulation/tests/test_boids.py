@@ -7,7 +7,7 @@ import yaml
 config = yaml.load(open('config.yml'))
 
 def test_bad_boids_regression():
-    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/fixtures.yml')))
+    regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/regression_fixtures.yml')))
     pos_before = [regression_data['before'][0],regression_data['before'][1]]
     pos_after = [regression_data['after'][0],regression_data['after'][1]]
     vel_before = [regression_data['before'][2],regression_data['before'][3]]
