@@ -52,17 +52,9 @@ def increment_positions(xs,ys,xvs,yvs):
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
     
-    # Fly towards the middle
-    coeff = config['fly_towards_middle_coeff']
-    fly_towards_middle(xs,ys,xvs,yvs,coeff)
-    # Fly away from nearby boids
-    cutoff = config['avoid_nearby_birds_cutoff']
-    avoid_nearby_boids(xs,ys,xvs,yvs,cutoff)
-   # Try to match speed with nearby boids
-    coeff = config['match_speed']['coeff']
-    cutoff = config['match_speed']['cutoff']
-    match_speeds(xs,ys,xvs,yvs,coeff,cutoff)
-    # Move according to velocities
+    fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
+    avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
+    match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
     increment_positions(xs,ys,xvs,yvs)
 
 figure=plt.figure()
