@@ -14,11 +14,11 @@ config = yaml.load(open('config.yml'))
 
 initialise_simulation = Builder('config.yml')
 
-positions = initialise_simulation.positions()
+positions = initialise_simulation.generate('starting_positions')
 boids_x = positions[0]
 boids_y = positions[1] 
 
-velocities = initialise_simulation.velocities()
+velocities = initialise_simulation.generate('starting_velocities')
 boid_x_velocities = velocities[0]
 boid_y_velocities = velocities[1]
 
