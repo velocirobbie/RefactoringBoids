@@ -22,14 +22,20 @@ boid_x_velocities=random_list(config['starting_velocities']['x_range'],Nboids)
 boid_y_velocities=random_list(config['starting_velocities']['y_range'],Nboids)
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
-def update_boids(boids):
-    xs,ys,xvs,yvs=boids
-    # Fly towards the middle
-    coeff = config['fly_towards_middle_coeff']
+def fly_towards_middle(xs,ys,xvs,yvs,coeff):
     for i in range(len(xs)):
         for j in range(len(xs)):
             xvs[i]=xvs[i]+(xs[j]-xs[i])*coeff/len(xs)
+    for i in range(len(xs)):
+        for j in range(len(xs)):
             yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
+ 
+def update_boids(boids):
+    xs,ys,xvs,yvs=boids
+    
+    # Fly towards the middle
+    coeff = config['fly_towards_middle_coeff']
+    fly_towards_middle(xs,ys,xvs,yvs,coeff)
     # Fly away from nearby boids
     cutoff = config['avoid_nearby_birds_cutoff']
     for i in range(len(xs)):
