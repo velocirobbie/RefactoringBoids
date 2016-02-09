@@ -29,4 +29,12 @@ class Boids(object):
             xs[i]=xs[i]+xvs[i]
             ys[i]=ys[i]+yvs[i]
 
- 
+    def update_boids(self,boids,config):
+        xs,ys,xvs,yvs=boids
+    
+        self.fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
+        self.avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
+        self.match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
+        self.increment_positions(xs,ys,xvs,yvs)
+
+

@@ -25,20 +25,13 @@ boid_y_velocities = velocities[1]
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 starlings = Boids()
-def update_boids(boids):
-    xs,ys,xvs,yvs=boids
-    
-    starlings.fly_towards_middle(xs,ys,xvs,yvs,config['fly_towards_middle_coeff'])
-    starlings.avoid_nearby_boids(xs,ys,xvs,yvs,config['avoid_nearby_birds_cutoff'])
-    starlings.match_speeds(xs,ys,xvs,yvs,config['match_speed']['coeff'],config['match_speed']['cutoff'])
-    starlings.increment_positions(xs,ys,xvs,yvs)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
 scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
-   update_boids(boids)
+   starlings.update_boids(boids,config)
    scatter.set_offsets(zip(boids[0],boids[1]))
 
 anim = animation.FuncAnimation(figure, animate,
