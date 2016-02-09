@@ -13,10 +13,13 @@ Nboids=config['Number_of_boids']
 
 # Deliberately terrible code for teaching purposes
 
-boids_x=[random.uniform(*config['starting_positions']['x_range']) for x in range(Nboids)]
-boids_y=[random.uniform(*config['starting_positions']['y_range']) for x in range(Nboids)]
-boid_x_velocities=[random.uniform(*config['starting_velocities']['x_range']) for x in range(Nboids)]
-boid_y_velocities=[random.uniform(*config['starting_velocities']['y_range']) for x in range(Nboids)]
+def random_list(range_,length):
+    return [random.uniform(*range_) for x in range(length)]
+
+boids_x=random_list(config['starting_positions']['x_range'],Nboids)
+boids_y=random_list(config['starting_positions']['y_range'],Nboids)
+boid_x_velocities=random_list(config['starting_velocities']['x_range'],Nboids)
+boid_y_velocities=random_list(config['starting_velocities']['y_range'],Nboids)
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids):
@@ -57,7 +60,7 @@ scatter=axes.scatter(boids[0],boids[1])
 def animate(frame):
    update_boids(boids)
    scatter.set_offsets(zip(boids[0],boids[1]))
-   print 'test'
+
 anim = animation.FuncAnimation(figure, animate,
                                frames=50, interval=50)
 
