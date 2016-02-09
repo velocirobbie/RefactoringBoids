@@ -2,15 +2,15 @@ Number_of_boids: 50
 
 starting_positions: 
     x_range: [-450.0,50.0]
-    y_range: [300.0,600,0]
+    y_range: [300.0,600.0]
 starting_velocities:
     x_range: [0,10.0]
     y_range: [-20.0,20.0]
 
 fly_towards_middle_coeff: 0.01
-fly_away_from_nearby_birds_limit: 100
+avoid_nearby_birds_cutoff: 100
 match_speed:
-    limit: 10000
+    cutoff: 10000
     coeff: 0.125    
 
 plot:

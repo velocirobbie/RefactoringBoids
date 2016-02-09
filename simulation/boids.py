@@ -14,9 +14,9 @@ Nboids=config['Number_of_boids']
 # Deliberately terrible code for teaching purposes
 
 boids_x=[random.uniform(*config['starting_positions']['x_range']) for x in range(Nboids)]
-boids_y=[random.uniform(config['starting_positions']['y_range']) for x in range(Nboids)]
-boid_x_velocities=[random.uniform(config['starting_velocities']['x_range']) for x in range(Nboids)]
-boid_y_velocities=[random.uniform(config['starting_velocities']['y_range']) for x in range(Nboids)]
+boids_y=[random.uniform(*config['starting_positions']['y_range']) for x in range(Nboids)]
+boid_x_velocities=[random.uniform(*config['starting_velocities']['x_range']) for x in range(Nboids)]
+boid_y_velocities=[random.uniform(*config['starting_velocities']['y_range']) for x in range(Nboids)]
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids):
@@ -30,18 +30,18 @@ def update_boids(boids):
         for j in range(len(xs)):
             yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
     # Fly away from nearby boids
-    limit = config['fly_away_from_nearby_birds_range']
+    cutoff = config['avoid_nearby_birds_cutoff']
     for i in range(len(xs)):
         for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < limit:
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
                 xvs[i]=xvs[i]+(xs[i]-xs[j])
                 yvs[i]=yvs[i]+(ys[i]-ys[j])
     # Try to match speed with nearby boids
     coeff = config['match_speed']['coeff']
-    limit = config['match_speed']['limit']
+    cutoff = config['match_speed']['cutoff']
     for i in range(len(xs)):
         for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < limit:
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
                 xvs[i]=xvs[i]+(xvs[j]-xvs[i])*coeff/len(xs)
                 yvs[i]=yvs[i]+(yvs[j]-yvs[i])*coeff/len(xs)
     # Move according to velocities
@@ -57,8 +57,7 @@ scatter=axes.scatter(boids[0],boids[1])
 def animate(frame):
    update_boids(boids)
    scatter.set_offsets(zip(boids[0],boids[1]))
-
-
+   print 'test'
 anim = animation.FuncAnimation(figure, animate,
                                frames=50, interval=50)
 
