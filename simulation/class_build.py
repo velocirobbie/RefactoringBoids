@@ -11,7 +11,8 @@ class Builder(object):
         y_range = self.config['starting_positions']['y_range']
         boids_x=self.random_list(x_range,self.Nboids)
         boids_y=self.random_list(y_range,self.Nboids)
-        return boids_x, boids_y
+        positions = [boids_x,boids_y]
+        return positions
 
     def velocities(self):
         x_range = self.config['starting_velocities']['x_range']
