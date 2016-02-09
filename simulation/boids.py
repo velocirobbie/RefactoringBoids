@@ -8,19 +8,15 @@ from matplotlib import animation
 import random
 import yaml
 from class_boids import Boids
+from class_build import Builder
 
-config=yaml.load(open('config.yml'))
-Nboids=config['Number_of_boids']
+config = yaml.load(open('config.yml'))
 
-# Deliberately terrible code for teaching purposes
+initialise_simulation = Builder('config.yml')
 
-def random_list(range_,length):
-    return [random.uniform(*range_) for x in range(length)]
+boids_x,boids_y = initialise_simulation.positions()
+boid_x_velocities, boid_y_velocities = initialise_simulation.velocities()
 
-boids_x=random_list(config['starting_positions']['x_range'],Nboids)
-boids_y=random_list(config['starting_positions']['y_range'],Nboids)
-boid_x_velocities=random_list(config['starting_velocities']['x_range'],Nboids)
-boid_y_velocities=random_list(config['starting_velocities']['y_range'],Nboids)
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 starlings = Boids()
