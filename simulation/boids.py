@@ -29,8 +29,6 @@ def update_boids(boids):
     for i in range(len(xs)):
         for j in range(len(xs)):
             xvs[i]=xvs[i]+(xs[j]-xs[i])*coeff/len(xs)
-    for i in range(len(xs)):
-        for j in range(len(xs)):
             yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
     # Fly away from nearby boids
     cutoff = config['avoid_nearby_birds_cutoff']
