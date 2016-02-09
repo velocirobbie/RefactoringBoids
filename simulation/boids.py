@@ -30,6 +30,25 @@ def fly_towards_middle(xs,ys,xvs,yvs,coeff):
         for j in range(len(xs)):
             yvs[i]=yvs[i]+(ys[j]-ys[i])*coeff/len(xs)
  
+def avoid_nearby_boids(xs,ys,xvs,yvs,cutoff):
+    for i in range(len(xs)):
+        for j in range(len(xs)):
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
+                xvs[i]=xvs[i]+(xs[i]-xs[j])
+                yvs[i]=yvs[i]+(ys[i]-ys[j])
+    
+def match_speeds(xs,ys,xvs,yvs,coeff,cutoff):
+    for i in range(len(xs)):
+        for j in range(len(xs)):
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
+                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*coeff/len(xs)
+                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*coeff/len(xs)
+ 
+def increment_positions(xs,ys,xvs,yvs):
+    for i in range(len(xs)):
+        xs[i]=xs[i]+xvs[i]
+        ys[i]=ys[i]+yvs[i]
+
 def update_boids(boids):
     xs,ys,xvs,yvs=boids
     
@@ -38,24 +57,13 @@ def update_boids(boids):
     fly_towards_middle(xs,ys,xvs,yvs,coeff)
     # Fly away from nearby boids
     cutoff = config['avoid_nearby_birds_cutoff']
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                xvs[i]=xvs[i]+(xs[i]-xs[j])
-                yvs[i]=yvs[i]+(ys[i]-ys[j])
-    # Try to match speed with nearby boids
+    avoid_nearby_boids(xs,ys,xvs,yvs,cutoff)
+   # Try to match speed with nearby boids
     coeff = config['match_speed']['coeff']
     cutoff = config['match_speed']['cutoff']
-    for i in range(len(xs)):
-        for j in range(len(xs)):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < cutoff:
-                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*coeff/len(xs)
-                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*coeff/len(xs)
+    match_speeds(xs,ys,xvs,yvs,coeff,cutoff)
     # Move according to velocities
-    for i in range(len(xs)):
-        xs[i]=xs[i]+xvs[i]
-        ys[i]=ys[i]+yvs[i]
-
+    increment_positions(xs,ys,xvs,yvs)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
