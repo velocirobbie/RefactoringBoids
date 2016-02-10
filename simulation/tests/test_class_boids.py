@@ -21,9 +21,9 @@ def check_func(test_boids,pathtofile):
     # therefore we iterate through all elements
     for j in range(test_boids.Nboids):
         for i in range(2):
-            assert_almost_equal(test_boids.pos[i][j],
+            assert_almost_equal(test_boids.positions[i][j],
                     answer['positions'][i][j],delta=0.01)
-            assert_almost_equal(test_boids.vel[i][j],
+            assert_almost_equal(test_boids.velocities[i][j],
                     answer['velocities'][i][j],delta=0.01)
 
 def test_fly_towards_middle():
@@ -40,3 +40,5 @@ def test_match_speeds():
     test_boids = init_trial_boids()
     test_boids.match_speeds(0.125,1000)
     check_func(test_boids,'fixtures/match_speeds.yml')
+
+

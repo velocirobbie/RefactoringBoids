@@ -17,11 +17,11 @@ flock = Boids(positions,velocities)
 
 figure=plt.figure()
 axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
-scatter=axes.scatter(*flock.pos)
+scatter=axes.scatter(*flock.positions)
 
 def animate(frame):
    flock.update_boids(config)
-   scatter.set_offsets(flock.pos.transpose())
+   scatter.set_offsets(flock.positions.transpose())
 
 anim = animation.FuncAnimation(figure, animate,
                                frames=50, interval=50)
