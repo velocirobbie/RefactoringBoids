@@ -15,7 +15,7 @@ def init_boids():
 def check_func(test_boids,pathtofile):
     test_boids.increment_positions()
     answer=yaml.load(open(os.path.join(os.path.dirname(__file__),pathtofile)))
-    for j in range(len(test_boids.pos[1])):
+    for j in range(test_boids.Nboids):
         for i in range(2):
             assert_almost_equal(test_boids.pos[i][j],answer['positions'][i][j],delta=0.01)
             assert_almost_equal(test_boids.vel[i][j],answer['velocities'][i][j],delta=0.01)

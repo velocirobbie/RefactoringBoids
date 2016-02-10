@@ -2,8 +2,8 @@ import numpy as np
 
 class Boids(object):
     def __init__(self,positions,velocities):
-        self.pos = positions
-        self.vel = velocities
+        self.pos = np.array(positions)
+        self.vel = np.array(velocities)
         self.Nboids = len(positions[1])
 
     def fly_towards_middle(self,coeff):
@@ -12,11 +12,23 @@ class Boids(object):
         self.vel -= direction_to_middle*coeff
 
     def avoid_nearby_boids(self,cutoff):
-        for i in range(self.Nboids):
-            for j in range(self.Nboids):
-                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
-                    self.vel[0][i]=self.vel[0][i]+(self.pos[0][i]-self.pos[0][j])
-                    self.vel[1][i]=self.vel[1][i]+(self.pos[1][i]-self.pos[1][j])
+        separations = self.pos[:,np.newaxis,:]-self.pos[:,:,np.newaxis]
+        print 'separations', separations
+        square_displacements = separations * separations
+        square_distances = np.sum(square_displacements,0)
+        far_away = square_distances > cutoff
+        print far_away
+        separation_if_close = np.copy(separations)
+        separation_if_close[0,:,:][far_away] = 0
+        separation_if_close[1,:,:][far_away] = 0
+        print separation_if_close
+        self.vel += np.sum(separation_if_close,1)
+
+#        for i in range(self.Nboids):
+#            for j in range(self.Nboids):
+#                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
+#                    self.vel[0][i]=self.vel[0][i]+(self.pos[0][i]-self.pos[0][j])
+#                    self.vel[1][i]=self.vel[1][i]+(self.pos[1][i]-self.pos[1][j])
     
     def match_speeds(self,coeff,cutoff):
         for i in range(self.Nboids):
