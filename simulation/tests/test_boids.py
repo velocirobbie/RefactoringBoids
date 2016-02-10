@@ -4,7 +4,7 @@ from nose.tools import assert_almost_equal
 import os
 import yaml
 
-config = yaml.load(open('config.yml'))
+config = yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/regression_config.yml')))
 
 def test_bad_boids_regression():
     regression_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/regression_fixtures.yml')))
