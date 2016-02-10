@@ -14,22 +14,19 @@ class Boids(object):
     def avoid_nearby_boids(self,cutoff):
         separations = differences(self.pos)
         far_away = outside_cutoff(separations,cutoff)
-        self.vel += np.sum(separation_if_close(separations,far_away),1)
+        separation_if_close = values_if_close(separations,far_away)
+        self.vel += np.sum(separation_if_close,1)
 
     def match_speeds(self,coeff,cutoff):
-#        velocity_differences = self.vel[:,np.newaxis,:] - self.vel[:,:,np.axis]
-        
-        for i in range(self.Nboids):
-            for j in range(self.Nboids):
-                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
-                    self.vel[0][i]=self.vel[0][i]+(self.vel[0][j]-self.vel[0][i])*coeff/self.Nboids
-                    self.vel[1][i]=self.vel[1][i]+(self.vel[1][j]-self.vel[1][i])*coeff/self.Nboids
- 
-    def increment_positions(self):
-        for i in range(self.Nboids):
-            self.pos[0][i]=self.pos[0][i]+self.vel[0][i]
-            self.pos[1][i]=self.pos[1][i]+self.vel[1][i]
+        separations = differences(self.pos)
+        velocity_differences = differences(self.vel)
+        far_away = outside_cutoff(separations,cutoff)
+        velocity_difference_if_close = values_if_close(velocity_differences,far_away)
+        self.vel -= np.mean(velocity_difference_if_close,1) * coeff
 
+    def increment_positions(self):
+        self.pos += self.vel
+        
     def update_boids(self,config):    
         self.fly_towards_middle(config['fly_towards_middle_coeff'])
         self.avoid_nearby_boids(config['avoid_nearby_birds_cutoff'])
@@ -45,9 +42,9 @@ def outside_cutoff(separations,cutoff):
     square_distances = np.sum(square_displacements,0)
     return square_distances > cutoff
 
-def separation_if_close(separations,far_away):
-    separations[0,:,:][far_away] = 0
-    separations[1,:,:][far_away] = 0
-    return separations
+def values_if_close(values,far_away):
+    values[0,:,:][far_away] = 0
+    values[1,:,:][far_away] = 0
+    return values
 
 
