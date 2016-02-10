@@ -2,10 +2,12 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import random
 import yaml
+import os
 from class_boids import Boids
 from class_build import Builder
 
-config = yaml.load(open('config.yml'))
+config = yaml.load(open(os.path.join(
+    os.path.dirname(__file__),'config.yml')))
 
 initialise_simulation = Builder('config.yml')
 positions = initialise_simulation.generate('starting_positions')

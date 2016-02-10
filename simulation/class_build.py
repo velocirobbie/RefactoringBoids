@@ -1,9 +1,11 @@
 import yaml
+import os
 import random
 
 class Builder(object):
     def __init__(self,config_filename):
-        self.config = yaml.load(open(config_filename))
+        self.config = yaml.load(open(os.path.join(
+            os.path.dirname(__file__),config_filename)))
         self.Nboids = self.config['Number_of_boids']
 
     def generate(self,key):
