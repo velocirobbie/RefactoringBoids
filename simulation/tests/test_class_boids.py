@@ -1,11 +1,11 @@
-from class_boids import Boids
+from ..class_boids import Boids
 import numpy as np
 from nose.tools import assert_equal,assert_almost_equal
 import os
 import yaml
 
 def init_trial_boids():
-    pathtofile = 'tests/fixtures/regression_fixtures.yml'
+    pathtofile = 'fixtures/regression_fixtures.yml'
     data=yaml.load(open(
         os.path.join(os.path.dirname(__file__),pathtofile)))
     pos_start = [data['before'][0],data['before'][1]]
@@ -29,14 +29,14 @@ def check_func(test_boids,pathtofile):
 def test_fly_towards_middle():
     test_boids = init_trial_boids() 
     test_boids.fly_towards_middle(0.01)
-    check_func(test_boids,'tests/fixtures/fly_towards_middle.yml')
+    check_func(test_boids,'fixtures/fly_towards_middle.yml')
 
 def test_avoid_nearby_boids():
     test_boids = init_trial_boids()
     test_boids.avoid_nearby_boids(100)
-    check_func(test_boids,'tests/fixtures/avoid_nearby_birds.yml')
+    check_func(test_boids,'fixtures/avoid_nearby_birds.yml')
 
 def test_match_speeds():
     test_boids = init_trial_boids()
     test_boids.match_speeds(0.125,1000)
-    check_func(test_boids,'tests/fixtures/match_speeds.yml')
+    check_func(test_boids,'fixtures/match_speeds.yml')

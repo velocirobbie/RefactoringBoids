@@ -21,16 +21,20 @@ class Boids(object):
         separations = differences(self.pos)
         velocity_differences = differences(self.vel)
         far_away = outside_cutoff(separations,cutoff)
-        velocity_difference_if_close = values_if_close(velocity_differences,far_away)
+        velocity_difference_if_close = values_if_close(
+                velocity_differences,far_away)
         self.vel -= np.mean(velocity_difference_if_close,1) * coeff
 
     def increment_positions(self):
         self.pos += self.vel
         
     def update_boids(self,config):    
-        self.fly_towards_middle(config['fly_towards_middle_coeff'])
-        self.avoid_nearby_boids(config['avoid_nearby_birds_cutoff'])
-        self.match_speeds(config['match_speed']['coeff'],config['match_speed']['cutoff'])
+        self.fly_towards_middle(
+                config['fly_towards_middle_coeff'])
+        self.avoid_nearby_boids(
+                config['avoid_nearby_birds_cutoff'])
+        self.match_speeds(config['match_speed']['coeff'],
+                          config['match_speed']['cutoff'])
         self.increment_positions()
 
 
