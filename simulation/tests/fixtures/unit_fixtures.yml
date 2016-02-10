@@ -1,0 +1,14 @@
+empty:
+    positions: [[],[]]
+    velocities: [[],[]]
+    fly: [[],[]]
+
+solo:
+    positions: [[0],[0]]
+    velocities: [[0],[0]]
+    fly: [[0],[0]]
+    
+two_ontop:
+    positions: [[0,0],[0,0]]
+    velocities: [[0,0],[0,0]]
+    fly: [[0,0],[0,0]]
