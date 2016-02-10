@@ -12,25 +12,13 @@ class Boids(object):
         self.vel -= direction_to_middle*coeff
 
     def avoid_nearby_boids(self,cutoff):
-        separations = self.pos[:,np.newaxis,:]-self.pos[:,:,np.newaxis]
-        print 'separations', separations
-        square_displacements = separations * separations
-        square_distances = np.sum(square_displacements,0)
-        far_away = square_distances > cutoff
-        print far_away
-        separation_if_close = np.copy(separations)
-        separation_if_close[0,:,:][far_away] = 0
-        separation_if_close[1,:,:][far_away] = 0
-        print separation_if_close
-        self.vel += np.sum(separation_if_close,1)
+        separations = differences(self.pos)
+        far_away = outside_cutoff(separations,cutoff)
+        self.vel += np.sum(separation_if_close(separations,far_away),1)
 
-#        for i in range(self.Nboids):
-#            for j in range(self.Nboids):
-#                if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
-#                    self.vel[0][i]=self.vel[0][i]+(self.pos[0][i]-self.pos[0][j])
-#                    self.vel[1][i]=self.vel[1][i]+(self.pos[1][i]-self.pos[1][j])
-    
     def match_speeds(self,coeff,cutoff):
+#        velocity_differences = self.vel[:,np.newaxis,:] - self.vel[:,:,np.axis]
+        
         for i in range(self.Nboids):
             for j in range(self.Nboids):
                 if (self.pos[0][j]-self.pos[0][i])**2 + (self.pos[1][j]-self.pos[1][i])**2 < cutoff:
@@ -47,5 +35,19 @@ class Boids(object):
         self.avoid_nearby_boids(config['avoid_nearby_birds_cutoff'])
         self.match_speeds(config['match_speed']['coeff'],config['match_speed']['cutoff'])
         self.increment_positions()
+
+
+def differences(array):
+    return array[:,np.newaxis,:] - array[:,:,np.newaxis]
+
+def outside_cutoff(separations,cutoff):
+    square_displacements = separations * separations
+    square_distances = np.sum(square_displacements,0)
+    return square_distances > cutoff
+
+def separation_if_close(separations,far_away):
+    separations[0,:,:][far_away] = 0
+    separations[1,:,:][far_away] = 0
+    return separations
 
 
