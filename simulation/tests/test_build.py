@@ -1,6 +1,7 @@
 from nose.tools import assert_equal
 from mock import patch
 import yaml
+import numpy as np
 from ..class_build import Builder
 
 def test_init():
@@ -19,15 +20,10 @@ def test_generate():
 def test_random_2xN_array():
     filename = 'tests/fixtures/regression_config.yml'
     simulation = Builder(filename)
-    with patch.object(simulation,'random_list') as mock_list:
-        mock_list.return_value = 'test'
-        assert_equal(
-                simulation.random_2xN_array('junk','junk','junk'),
-                ['test','test'])
-       
-def test_random_list():
-    filename = 'tests/fixtures/regression_config.yml'
-    simulation = Builder(filename)
-    simulation.random_list(0,1,10000)
-
+    with patch.object(np.random,'uniform') as mock_random:
+        x_range = [0,1]
+        y_range = [2,3]
+        coords = simulation.random_2xN_array(x_range,y_range,4)
+        mock_random.assert_any_call(0,1,size=4)
+        mock_random.assert_any_call(2,3,size=4)
 
