@@ -1,14 +1,49 @@
-empty:
-    positions: [[],[]]
-    velocities: [[],[]]
-    fly: [[],[]]
+#numpy gives a runtime warning for operations on an empty array
+#tests pass if this section is uncommented
+#
+#empty:
+#    positions: [[],[]]
+#    velocities: [[],[]]
+#    fly: [[],[]]
+#    avoid: [[],[]]
+#    match: [[],[]]
+#    increment: [[],[]]
+#    update: [[],[]]
 
 solo:
-    positions: [[0],[0]]
-    velocities: [[0],[0]]
-    fly: [[0],[0]]
-    
+    positions: [[0.],[0.]]
+    velocities: [[0.],[0.]]
+    fly: [[0.],[0.]]
+    avoid: [[0.],[0.]]
+    match: [[0.],[0.]]
+    increment: [[0.],[0.]]
+    update: [[0.],[0.]]
+
 two_ontop:
-    positions: [[0,0],[0,0]]
-    velocities: [[0,0],[0,0]]
-    fly: [[0,0],[0,0]]
+    positions: [[0.,0.],[0.,0.]]
+    velocities: [[0.,0.],[0.,0.]]
+    fly: [[0.,0.],[0.,0.]]
+    avoid: [[0.,0.],[0.,0.]]
+    match: [[0.,0.],[0.,0.]] 
+    increment: [[0.,0.],[0.,0.]]
+    update: [[0.,0.],[0.,0.]]
+
+two_v0:
+    positions: [[0.,0.],[1.,0.]]
+    velocities: [[0.,0.],[0.,0.]]
+    fly: [[0.,0.],[-0.005,0.005]]
+    avoid: [[0.,0.],[1.,-1.]]
+    match: [[0.,0.],[0.,0.]] 
+    increment: [[0.,0.],[1.,0.]]
+    update: [[0.,0.],[0.870625, -0.870625]]
+
+two_different_v:
+    positions: [[0.,0.],[10.,0.]]
+    velocities: [[0.,0.],[1.,0.]]
+    fly: [[0.,0.],[0.95,0.05]]
+    avoid: [[0.,0.],[11.,-10.]]
+    match: [[0.,0.],[0.9375,0.0625]] 
+    increment: [[0.,0.],[11.,0.]]
+    update: [[0.,0.],[9.64375, -8.64375]]
+
+
