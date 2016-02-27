@@ -1,2 +1,5 @@
-from simulation.boids import process
-process()
+#!/usr/bin/env python
+import sys
+print sys.path
+from boids.boids import simulate
+simulate()
