@@ -12,7 +12,7 @@ def simulate():
             description='''Simulate the flocking behaviour of 
             birds. Specify a configuration file or a default 
             one will be used''')
-    parser.add_argument("--input", "-i",default='config.yml'
+    parser.add_argument("--input", "-i",default='config.yml',
             help='Configuration file, in yaml format')
     arguments = parser.parse_args()
     
