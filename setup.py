@@ -1,11 +1,15 @@
 from setuptools import setup, find_packages
 setup(
         name = 'boids',
-        version = '1.0.2',
+        version = '1.0.6',
         packages = find_packages(exclude=['*test']),
-#        data_files = [('boids',['boids/config.yml'])],
         package_data={"boids": ["config.yml"]},
         scripts = ['scripts/boids'],
         install_requires = ['pyyaml','numpy','matplotlib']
         )
+
+#metadata
+author = Robert Sinclair
+author_email = rcsinclair3@gmail.com
+description = A program to simulate the flocking behaviour of birds
 

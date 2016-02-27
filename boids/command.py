@@ -12,17 +12,12 @@ def simulate():
             description='''Simulate the flocking behaviour of 
             birds. Specify a configuration file or a default 
             one will be used''')
-    parser.add_argument("--input", "-i",
+    parser.add_argument("--input", "-i",default='config.yml'
             help='Configuration file, in yaml format')
     arguments = parser.parse_args()
     
-    if arguments.input:
-        config = yaml.load(open(arguments.input))
-        initialise_simulation = Builder(arguments.input)
-    else:
-        config = yaml.load(open(os.path.join(
-            os.path.dirname(__file__),'config.yml')))
-        initialise_simulation = Builder('config.yml')
+    config = yaml.load(open(arguments.input))
+    initialise_simulation = Builder(arguments.input)
 
     positions = initialise_simulation.generate(
             'starting_positions')
@@ -43,6 +38,3 @@ def simulate():
                                frames=50, interval=50)
     plt.show()
 
-#if __name__ == "__main__":
-#    simulate()
-#    plt.show()
