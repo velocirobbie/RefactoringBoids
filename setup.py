@@ -9,8 +9,8 @@ setup(
         
 
         #metadata
-        author = Robert Sinclair,
-        author_email = rcsinclair3@gmail.com,
-        description = A program to simulate the flocking behaviour of birds
+        author = 'Robert Sinclair',
+        author_email = 'rcsinclair3@gmail.com',
+        description = 'A program to simulate the flocking behaviour of birds'
         )
 
